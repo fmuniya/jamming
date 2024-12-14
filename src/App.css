@@ -1,0 +1,79 @@
+/* App.css */
+.App {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.App-body {
+  display: flex;
+  justify-content: space-around;
+}
+
+.SearchBar input {
+  padding: 10px;
+  width: 300px;
+}
+
+.SearchBar button {
+  padding: 10px;
+  background-color: #1db954;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.SearchResults, .Playlist {
+  width: 45%;
+}
+
+.Tracklist {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+.Track button {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.SaveButton {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.SaveButton:hover {
+  background-color: #1ed760;
+}
+
+.SearchResults {
+  margin-top: 20px;
+}
+
+.Track {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.Track h3 {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.Track p {
+  font-size: 1em;
+  color: #555;
+}
