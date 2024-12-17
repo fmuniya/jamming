@@ -8,7 +8,7 @@ function SearchBar({ onSearch }) {
     };
 
     const handleSearchClick = () => {
-        console.log('Search for: ', query);  // Debugging line to see the query
+        // console.log('Search for: ', query);  // Debugging line to see the query
         onSearch(query);  // Call the passed function to notify App.js
     }
 

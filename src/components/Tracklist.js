@@ -3,7 +3,7 @@ import Track from './Track';
 
 function Tracklist({ tracks, onAddToPlaylist, onRemoveFromPlaylist }) {
     
-    console.log("Tracks in Tracklist: ", tracks); 
+    //console.log("Tracks in Tracklist: ", tracks); 
 
     if (!Array.isArray(tracks) || tracks.length === 0) {
         return <div>No tracks available</div>; // Optionally display a message if no tracks exist
@@ -15,10 +15,6 @@ function Tracklist({ tracks, onAddToPlaylist, onRemoveFromPlaylist }) {
                 <Track 
                 key={track.id}  // Ensure each track has a unique key
                 track={ track }
-                /* id={track.id} 
-                name={track.name} 
-                artist={track.artist} 
-                album={track.album}  */
                 onAddToPlaylist={onAddToPlaylist} // Ensure `onAddToPlaylist` is passed properly
                 onRemoveFromPlaylist={onRemoveFromPlaylist}
             />

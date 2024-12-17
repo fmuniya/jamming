@@ -11,7 +11,7 @@ function Track({track, onAddToPlaylist, onRemoveFromPlaylist }) {
     const { id, name, artist, album } = track;
 
     const handleAddToPlaylist = () => {
-        console.log("Adding to playlist:", { track });
+        // console.log("Adding to playlist:", { track });
         onAddToPlaylist(track);
     };
 

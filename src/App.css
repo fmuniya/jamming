@@ -43,6 +43,7 @@
   cursor: pointer;
 }
 
+/* Make the SaveButton sticky at the top of the Playlist */
 .SaveButton {
   background-color: #1db954;
   color: white;
@@ -50,6 +51,12 @@
   padding: 10px;
   cursor: pointer;
   margin-top: 20px;
+  position: sticky;
+  top: 0; /* Keeps the button at the top of its container */
+  z-index: 10; /* Ensures the button stays above other content */
+  border-radius: 5px;
+  width: 100%; /* Makes the button full width inside its container */
+  max-width: 300px; /* Optional: limits the width to 300px */
 }
 
 .SaveButton:hover {

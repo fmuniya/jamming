@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import Playlist from './Playlist';
+import Spotify from './Spotify';
 
 function App() {
     const [tracks, setTracks] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [playlist, setPlaylist] = useState({
             name: 'My Playlist', // default playlist Name
             tracks: [] //list of tracks in the playlist
@@ -14,22 +15,11 @@ function App() {
 
     // Search function to filter tracks based on the query
     const handleSearch = (query) => {
-        console.log("Searching for:", query);  // Debugging line to see the query
+       // console.log("Searching for:", query);  // Debugging line to see the query
 
-        const allTracks = [
-            { id: 1, name: "One Mic", artist: "Nas", album: "Stillmatic", uri: "spotify:track:1" },
-            { id: 2, name: "Waves", artist: "Joey Bada$$", album: "1999", uri: "spotify:track:2" },
-            { id: 3, name: "Gloria", artist: "Kendrick Lamar", album: "GNX", uri: "spotify:track:3" }
-        ];
-
-        const filteredTracks = allTracks.filter(track => 
-            track.name.toLowerCase().includes(query.toLowerCase()) || 
-            track.artist.toLowerCase().includes(query.toLowerCase()) ||
-            track.album.toLowerCase().includes(query.toLowerCase())
-        );
-
-        console.log("Filtered tracks:", filteredTracks);  // Check filtered tracks
-        setTracks(filteredTracks);  // Update the state with the filtered tracks
+        Spotify.search(query).then(tracks => {
+            setTracks(tracks);
+        });
     };
 
     const handleAddToPlaylist = (track) => {
@@ -71,8 +61,14 @@ function App() {
         // Extract URIs from the playlist
         const trackUris = playlist.tracks.map(track => track.uri);
         
-        // Mock saving to Spotify (in a real app, this would interact with the Spotify API)
-        console.log("Saving the following tracks to Spotify:", trackUris);
+        // Saving to Spotify 
+        Spotify.savePlaylist(playlist.name, trackUris).then(() => {
+            alert('Playlist saved to Spotify!');
+            setPlaylist({
+                name: 'My Playlist',
+                tracks: []
+            });
+        });
 
         // Check if trackUris array is populated
     if (trackUris.length === 0) {
@@ -98,17 +94,7 @@ function App() {
         });
     };
 
-    useEffect(() => {
-        setTimeout(() => {
-            const initialTracks = [
-                { id: 1, name: "One Mic", artist: "Nas", album: "Stillmatic", uri: "spotify:track:1" },
-                { id: 2, name: "Waves", artist: "Joey Bada$$", album: "1999", uri: "spotify:track:2" },
-                { id: 3, name: "Gloria", artist: "Kendrick Lamar", album: "GNX", uri: "spotify:track:3" }
-            ];
-            setTracks(initialTracks);
-            setLoading(false);
-        }, 2000); // Simulate a 2-second delay
-    }, []);
+    
 
     return (
         <div className='App'>
@@ -121,13 +107,16 @@ function App() {
                 ) : (
                     <>
                         <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} />
-                        <Playlist 
-                            playlist={playlist} 
-                            //playlist={{name: 'Random Playlist', tracks: [{id: 1, name: 'Track1', artist: 'Artist 1', album: 'Album 1' }]}}
-                            onPlaylistNameChange={handlePlaylistNameChange}
-                            onRemoveFromPlaylist={handleRemoveFromPlaylist}
-                        />
-                        <button className="SaveButton" onClick={handleSaveToSpotify}>Save To Spotify</button>
+                        <div className="Playlist">
+                            <div className="SaveButtonContainer">
+                                <button className="SaveButton" onClick={handleSaveToSpotify}>Save To Spotify</button>
+                            </div>
+                            <Playlist 
+                                playlist={playlist} 
+                                onPlaylistNameChange={handlePlaylistNameChange}
+                                onRemoveFromPlaylist={handleRemoveFromPlaylist}
+                            />
+                        </div>
                     </>
                 )}
             </div>
