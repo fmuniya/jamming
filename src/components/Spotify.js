@@ -28,13 +28,6 @@ const Spotify = {
             window.location = authUrl;
         }
 
-        
-        /* const scope = 'playlist-modify-public playlist-modify-private'; // Permissions needed for playlists
-        const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${encodeURIComponent(
-            scope
-        )}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-
-        window.location = authUrl; // Redirect user to Spotify login */
     },
 
     async search(term) {
@@ -43,6 +36,7 @@ const Spotify = {
             headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
+        console.log("Spotify API response:", data);
         if (!data.tracks) return [];
         return data.tracks.items.map(track => ({
             id: track.id,
@@ -50,6 +44,7 @@ const Spotify = {
             artist: track.artists[0].name,
             album: track.album.name,
             uri: track.uri,
+            previewUrl: track.preview_url,
         }));
     },
 

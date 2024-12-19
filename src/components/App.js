@@ -4,6 +4,7 @@ import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import Playlist from './Playlist';
 import Spotify from './Spotify';
+import LoadingScreen from './LoadingScreen';
 
 function App() {
     const [tracks, setTracks] = useState([]);
@@ -12,6 +13,8 @@ function App() {
             name: 'My Playlist', // default playlist Name
             tracks: [] //list of tracks in the playlist
         }); // State for the playlist
+
+    const [isSaving, setIsSaving] = useState(false);
 
     // Search function to filter tracks based on the query
     const handleSearch = (query) => {
@@ -58,6 +61,8 @@ function App() {
             return;
         }
 
+        setIsSaving(true); // show loading Screen
+
         // Extract URIs from the playlist
         const trackUris = playlist.tracks.map(track => track.uri);
         
@@ -68,6 +73,13 @@ function App() {
                 name: 'My Playlist',
                 tracks: []
             });
+        })
+        .catch((error) => {
+            alert('An error occured while saving the playlist. Please try again.');
+            console.error(error);
+        })
+        .finally(() => {
+            setIsSaving(false); // Hide the loading screen
         });
 
         // Check if trackUris array is populated
@@ -99,6 +111,7 @@ function App() {
     return (
         <div className='App'>
             <h1>Jamming</h1>
+            {isSaving && <LoadingScreen message="Saving Your Playlist..." />}
             <SearchBar onSearch={handleSearch} />
 
             <div className='App-body'>
@@ -108,14 +121,15 @@ function App() {
                     <>
                         <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} />
                         <div className="Playlist">
-                            <div className="SaveButtonContainer">
-                                <button className="SaveButton" onClick={handleSaveToSpotify}>Save To Spotify</button>
-                            </div>
+                            
                             <Playlist 
                                 playlist={playlist} 
                                 onPlaylistNameChange={handlePlaylistNameChange}
                                 onRemoveFromPlaylist={handleRemoveFromPlaylist}
                             />
+                            <div className="SaveButtonContainer">
+                                <button className="SaveButton" onClick={handleSaveToSpotify}>Save To Spotify</button>
+                            </div>
                         </div>
                     </>
                 )}

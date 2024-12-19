@@ -8,7 +8,7 @@ function Track({track, onAddToPlaylist, onRemoveFromPlaylist }) {
         return <div>Error: Track data is missing!</div>;  // This will help debug if `track` is undefined
     }
 
-    const { id, name, artist, album } = track;
+    const { id, name, artist, album, previewUrl } = track;
 
     const handleAddToPlaylist = () => {
         // console.log("Adding to playlist:", { track });
@@ -36,6 +36,14 @@ function Track({track, onAddToPlaylist, onRemoveFromPlaylist }) {
             <p>Song: {name}</p>
             <p>Artist Name: {artist}</p>
             <p>Album: {album}</p>
+
+            {previewUrl && (
+                <audio controls className="Track-preview">
+                    <source src="{previewUrl}" type="audio/mpeg" />
+                    Your Browser Does not support the Audio Element
+                </audio>
+            )}
+            
             {onRemoveFromPlaylist ? (
                 <button onClick={handleRemoveFromPlaylist}>Remove from Playlist</button> // Show remove button in playlist
             ) : (

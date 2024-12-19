@@ -22,8 +22,12 @@
   cursor: pointer;
 }
 
-.SearchResults, .Playlist {
-  width: 45%;
+.SearchResults {
+  width: 40%;
+}
+
+.Playlist {
+  width: 50%;
 }
 
 .Tracklist {
@@ -43,24 +47,27 @@
   cursor: pointer;
 }
 
-/* Make the SaveButton sticky at the top of the Playlist */
+
 .SaveButton {
   background-color: #1db954;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 12px 20px;
   cursor: pointer;
+  width: 50%;  /* Full width to align within container */
+  max-width: 300px;  /* Optional: limits the width to 300px */
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
   margin-top: 20px;
-  position: sticky;
-  top: 0; /* Keeps the button at the top of its container */
-  z-index: 10; /* Ensures the button stays above other content */
-  border-radius: 5px;
-  width: 100%; /* Makes the button full width inside its container */
-  max-width: 300px; /* Optional: limits the width to 300px */
+  margin-right: 350px;
 }
 
 .SaveButton:hover {
   background-color: #1ed760;
+}
+
+.SaveButton:active {
+  background-color: #1aa34a;
 }
 
 .SearchResults {
@@ -83,4 +90,22 @@
 .Track p {
   font-size: 1em;
   color: #555;
+}
+
+.Track {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.Track-preview {
+  margin-top: 10px;
+  width: 100%;
 }
