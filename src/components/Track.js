@@ -8,7 +8,9 @@ function Track({track, onAddToPlaylist, onRemoveFromPlaylist }) {
         return <div>Error: Track data is missing!</div>;  // This will help debug if `track` is undefined
     }
 
-    const { id, name, artist, album, previewUrl } = track;
+    const { id, name, artist, album, previewUrl, artists = []} = track;
+
+    const artistNames = artists.map(artist => artist.name).join(", ");
 
     const handleAddToPlaylist = () => {
         // console.log("Adding to playlist:", { track });
@@ -21,7 +23,7 @@ function Track({track, onAddToPlaylist, onRemoveFromPlaylist }) {
 
     const handleAddClick = (event) => {
         event.stopPropagation(); // Prevent event bubbling if needed
-        console.log("Adding track to playlist:", track);
+        //console.log("Adding track to playlist:", track);
         onAddToPlaylist(track);  // Correctly pass the track object
     };
 
@@ -34,7 +36,7 @@ function Track({track, onAddToPlaylist, onRemoveFromPlaylist }) {
     return (
         <div className="Track">
             <p>Song: {name}</p>
-            <p>Artist Name: {artist}</p>
+            <p>Artist Name: {artistNames || "Unknown Artist"}</p>
             <p>Album: {album}</p>
 
             {previewUrl && (

@@ -30,13 +30,39 @@ const Spotify = {
 
     },
 
+    getTopTracks() {
+        const token = this.getAccessToken();
+        const popularTracksEndPoint = `https://api.spotify.com/v1/playlists/774kUuKDzLa8ieaSmi8IfS?si=KxUb4mt9QWSPqLxlCBEl6A`; // get Spotify's top 50 global playlist
+
+        return fetch(popularTracksEndPoint, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+
+            .then(response => response.json())
+            .then(data => {
+                //console.log('Top Tracks API response:', data); // Debug
+                if (!data.tracks) return [];
+                return data.tracks.items.slice(0, 5).map(item => ({
+                    id: item.track.id,
+                    name: item.track.name,
+                    album: item.track.album.name,
+                    artists: item.track.artists,
+                    uri: item.track.uri,
+                    previewUrl: item.track.preview_url,
+                }));
+            })
+            .catch(error => {
+                console.error('Error fetching top tracks:', error); // Handle errors
+            })
+    },
+
     async search(term) {
         const token = Spotify.getAccessToken();
         const response = await fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
-        console.log("Spotify API response:", data);
+        // console.log("Spotify API response:", data);
         if (!data.tracks) return [];
         return data.tracks.items.map(track => ({
             id: track.id,
@@ -47,6 +73,7 @@ const Spotify = {
             previewUrl: track.preview_url,
         }));
     },
+
 
     savePlaylist(name, trackUris) {
         if (!name || !trackUris.length) return;

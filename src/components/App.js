@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
@@ -84,7 +84,7 @@ function App() {
 
         // Check if trackUris array is populated
     if (trackUris.length === 0) {
-        console.log("No tracks have URIs. Check track objects.");
+        // console.log("No tracks have URIs. Check track objects.");
         alert("No tracks have URIs. Check track objects.");
     }
 
@@ -106,6 +106,17 @@ function App() {
         });
     };
 
+    useEffect(() => {
+        Spotify.getTopTracks().then(tracks => {
+            setTracks(tracks);
+            setLoading(false);
+        })
+        .catch(error => {
+            console.error('Error loading tracks', error);
+            setLoading(false);
+        })
+    }, []); // Run only once on initial render
+
     
 
     return (
@@ -116,7 +127,7 @@ function App() {
 
             <div className='App-body'>
                 {loading ? (
-                    <p>Loading tracks...</p>
+                    <p>Loading popular tracks...</p>
                 ) : (
                     <>
                         <SearchResults tracks={tracks} onAddToPlaylist={handleAddToPlaylist} />
